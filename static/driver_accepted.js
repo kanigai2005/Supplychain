@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const DRIVER_ID = 1;
     const container = document.getElementById('groups-container');
 
     function formatStatus(status) {
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchAcceptedOrders() {
-        const response = await fetch(`/api/driver/orders/accepted/${DRIVER_ID}`);
+        const response = await fetch(`/api/driver/orders/accepted`);
         const groupedOrders = await response.json();
 
         if (!container) { return; }
@@ -29,17 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = '<p>You have not accepted any orders yet.</p>';
             return;
         }
-
         container.innerHTML = '';
-
         for (const address in groupedOrders) {
             const groupDiv = document.createElement('div');
             groupDiv.className = 'address-group';
-            
             let orderCardsHtml = '';
 
             groupedOrders[address].forEach(order => {
-                const typeTag = order.delivery_type === 'door' ? '<span class="tag tag-door">DOOR</span>' : '<span class="tag tag-common">HUB</span>';
+                const typeTag = order.delivery_type === 'Door Delivery' ? '<span class="tag tag-door">DOOR</span>' : '<span class="tag tag-common">HUB</span>';
 
                 orderCardsHtml += `
                     <div class="order-card">
@@ -52,12 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
             });
-            
-            // NOTE: The total earnings header has been removed.
-            groupDiv.innerHTML = `
-                <h2>Stop: ${address}</h2>
-                ${orderCardsHtml}
-            `;
+            groupDiv.innerHTML = `<h2>Stop: ${address}</h2>${orderCardsHtml}`;
             container.appendChild(groupDiv);
         }
     }
