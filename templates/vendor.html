@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard - SupplyChain</title>
+    <!-- MODIFIED LINE: Using url_for to correctly link the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor_css.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Supply-Chain</h1>
+            <p>Welcome, Gupta Ji!</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <!-- =================================== -->
+        <!-- 1. Main Dashboard View (Default)    -->
+        <!-- =================================== -->
+        <section id="dashboard-view">
+            <div class="dashboard-header">
+                <h2>My Dashboard</h2>
+                <button id="show-request-form-btn" class="btn btn-primary">Request a New Pickup</button>
+            </div>
+            
+            <div class="requests-list">
+                <h3>Active Requests</h3>
+                <ul id="active-requests-list">
+                    <!-- Data will be loaded from the server by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="requests-list">
+                <h3>Past Requests</h3>
+                <ul id="past-requests-list">
+                     <!-- Data will be loaded from the server by JavaScript -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- =================================== -->
+        <!-- 2. New Pickup Request Form View     -->
+        <!-- =================================== -->
+        <section id="request-form-view" class="hidden">
+            <h2>New Pickup Request</h2>
+            <form id="new-request-form">
+                <!-- ITEM DETAILS -->
+                <div class="form-group">
+                    <label for="supplier-name">Supplier / Market Name</label>
+                    <input type="text" id="supplier-name" placeholder="e.g., Azadpur Mandi" required>
+                </div>
+                <div id="items-container">
+                    <div class="form-item-group">
+                        <input type="text" class="item-name" placeholder="Item Name (e.g., Potatoes)" required>
+                        <input type="text" class="item-quantity" placeholder="Quantity (e.g., 25 kg)" required>
+                    </div>
+                </div>
+                <button type="button" id="add-item-btn" class="btn btn-secondary">Add Another Item</button>
+                <hr>
+
+                <!-- DELIVERY OPTIONS -->
+                <div class="form-group">
+                    <label>Delivery Options</label>
+                    <div class="delivery-options-container">
+                        <label class="delivery-option">
+                            <input type="radio" name="delivery-type" value="Lane Hub" checked>
+                            Common Lane Hub (Standard Fee)
+                        </label>
+                        <label class="delivery-option">
+                            <input type="radio" name="delivery-type" value="Door Delivery">
+                            Premium Door Delivery (+ Extra Fee)
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="hub-address-group" class="form-group">
+                    <label for="hub-address">Lane Hub Address</label>
+                    <input type="text" id="hub-address" placeholder="e.g., Chandni Chowk, Lane 5 Drop Point" >
+                </div>
+
+                <div id="door-address-group" class="form-group hidden">
+                    <label for="door-address">Your Stall Address</label>
+                    <input type="text" id="door-address" placeholder="e.g., Stall No. 42, Near Fountain" >
+                </div>
+
+                <!-- FORM ACTIONS -->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                    <button type="button" id="back-to-dashboard-btn1" class="btn btn-tertiary">Cancel</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- =================================== -->
+        <!-- 3. Request Status View              -->
+        <!-- =================================== -->
+        <section id="status-view" class="hidden">
+            <h2 id="status-request-id">Status for Request #...</h2>
+
+            <div class="status-summary">
+                <h3>Request Summary</h3>
+                <p><strong>Supplier:</strong> <span id="status-supplier"></span></p>
+                <p><strong>Delivery To:</strong> <span id="status-delivery-address"></span></p>
+                <ul id="status-items-list">
+                    <!-- Items will be populated by JavaScript -->
+                </ul>
+            </div>
+
+            <div class="status-timeline">
+                <h3>Delivery Status</h3>
+                <ul id="status-timeline-list">
+                    <!-- Timeline items will be populated by JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="form-actions">
+                 <button id="back-to-dashboard-btn2" class="btn btn-primary">Back to Dashboard</button>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- MODIFIED LINE: Using url_for to correctly link the JavaScript file -->
+    <script src="{{ url_for('static', filename='vendor_script.js') }}"></script>
+</body>
+</html>

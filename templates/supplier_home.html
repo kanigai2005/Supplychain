@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Dashboard - Home</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>/* ================ BASE STYLES ================ */
+:root {
+  --primary: #4361ee;
+  --primary-dark: #3a56d4;
+  --secondary: #3f37c9;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --gray: #6c757d;
+  --light-gray: #e9ecef;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f5f7fb;
+  margin: 0;
+  padding: 0;
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+/* ================ LAYOUT CONTAINER ================ */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* ================ HEADER STYLES ================ */
+h1 {
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+/* ================ NAVIGATION BAR ================ */
+nav {
+  background: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+nav a {
+  color: var(--gray);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+nav a:hover {
+  color: var(--primary);
+  background-color: rgba(67, 97, 238, 0.1);
+  transform: translateY(-2px);
+}
+
+nav a:active {
+  transform: translateY(0);
+}
+
+/* ================ CONTENT AREA ================ */
+#home-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#home-content p {
+  font-size: 1.1rem;
+  color: var(--gray);
+  margin: 0;
+}
+
+/* ================ DASHBOARD CARDS ================ */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card h3 {
+  color: var(--gray);
+  margin-top: 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.stat-card .value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 0.5rem 0;
+}
+
+/* ================ RESPONSIVE DESIGN ================ */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  nav {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  
+  nav a {
+    width: 100%;
+    text-align: center;
+  }
+  
+  #home-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ================ ANIMATIONS ================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#home-content {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.stat-card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome Supplier</h1>
+    
+    <nav>
+      <a href="{{ url_for('supplier_home') }}">Home</a>
+      <a href="{{ url_for('supplier_inventory') }}">Inventory</a>
+      <a href="{{ url_for('supplier_requests') }}">Incoming Requests</a>
+      <a href="{{ url_for('supplier_confirmed') }}">Confirmed Orders</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    
+    <div id="home-content">
+      <p>Welcome to your supplier dashboard. Use the navigation above to manage your inventory and requests.</p>
+    </div>
+    
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3>Total Inventory Items</h3>
+        <div class="value">{{ inventory_count }}</div>
+      </div>
+      <div class="stat-card">
+        <h3>Pending Requests</h3>
+        <div class="value">{{ pending_requests }}</div>
+      </div>
+      <div class="stat-card">
+        <h3>Confirmed Orders</h3>
+        <div class="value">{{ confirmed_orders }}</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='static/home.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>/* ================ BASE STYLES ================ */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #f5f7fb;
+  margin: 0;
+  padding: 20px;
+  color: #2c3e50;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #4361ee;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #4361ee, #3f37c9);
+}
+
+/* ================ INVENTORY LIST ================ */
+#inventory-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+}
+
+#inventory-list li {
+  background: white;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  border-left: 4px solid #4361ee;
+}
+
+#inventory-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#inventory-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* Empty state */
+#inventory-list li:only-child {
+  background: #f8f9fa;
+  color: #6c757d;
+  justify-content: center;
+  border-left: none;
+  font-style: italic;
+}
+
+/* ================ ADD ITEM FORM ================ */
+#add-item-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 15px;
+  margin-top: 30px;
+  align-items: end;
+}
+
+#add-item-form input {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+#add-item-form input:focus {
+  outline: none;
+  border-color: #4361ee;
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+#add-item-form button {
+  padding: 12px 20px;
+  background-color: #4361ee;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#add-item-form button:hover {
+  background-color: #3a56d4;
+  transform: translateY(-1px);
+}
+
+/* ================ QUANTITY BADGE ================ */
+.quantity-badge {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 5px 10px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* ================ RESPONSIVE DESIGN ================ */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+  
+  #add-item-form {
+    grid-template-columns: 1fr;
+  }
+  
+  #inventory-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+/* ================ ANIMATIONS ================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#inventory-list li {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+#inventory-list li:nth-child(1) { animation-delay: 0.1s; }
+#inventory-list li:nth-child(2) { animation-delay: 0.2s; }
+#inventory-list li:nth-child(3) { animation-delay: 0.3s; }</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Inventory</h1>
+    
+    <ul id="inventory-list">
+      {% for item in items %}
+        <li>
+          <span>{{ item['item_name'] }}</span>
+          <span class="quantity-badge">{{ item['quantity_available'] }} kg</span>
+        </li>
+      {% else %}
+        <li>No items in inventory</li>
+      {% endfor %}
+    </ul>
+
+    <form id="add-item-form" method="POST" action="{{ url_for('add_item') }}">
+      <input type="text" name="item" placeholder="Item name" required>
+      <input type="number" name="quantity" placeholder="Quantity" min="0" required>
+      <button type="submit">Add Item</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/inventory.js') }}"></script>
+</body>
+</html>

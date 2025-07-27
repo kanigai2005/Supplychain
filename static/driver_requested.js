@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('orders-container');
 
     async function fetchAvailableOrders() {
-        const response = await fetch('/api/orders/available');
+        const response = await fetch('/api/driver/orders/available');
         const orders = await response.json();
 
         if (!container) { return; }
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        const response = await fetch(`/api/orders/accept/${orderId}/${DRIVER_ID}`, {
+        const response = await fetch(`/api/driver/orders/accept/${orderId}/${DRIVER_ID}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ delivery_time: deliveryTime })

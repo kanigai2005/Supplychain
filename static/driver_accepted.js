@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchAcceptedOrders() {
-        const response = await fetch(`/api/orders/accepted/${DRIVER_ID}`);
+        const response = await fetch(`/api/driver/orders/accepted/${DRIVER_ID}`);
         const groupedOrders = await response.json();
 
         if (!container) { return; }
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.updateOrderStatus = async (orderId, newStatus) => {
-        const response = await fetch(`/api/orders/update_status/${orderId}`, {
+        const response = await fetch(`/api/driver/orders/update_status/${orderId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
