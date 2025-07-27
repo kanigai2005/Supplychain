@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/inventory.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Inventory</h1>
+    
+    <ul id="inventory-list">
+      {% for item in items %}
+        <li>
+          <span>{{ item['item_name'] }}</span>
+          <span class="quantity-badge">{{ item['quantity_available'] }} kg</span>
+        </li>
+      {% else %}
+        <li>No items in inventory</li>
+      {% endfor %}
+    </ul>
+
+    <form id="add-item-form" method="POST" action="{{ url_for('add_item') }}">
+      <input type="text" name="item" placeholder="Item name" required>
+      <input type="number" name="quantity" placeholder="Quantity" min="0" required>
+      <button type="submit">Add Item</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/inventory.js') }}"></script>
+</body>
+</html>

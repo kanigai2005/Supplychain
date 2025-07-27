@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Incoming Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/requests.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Incoming Requests</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Vendor</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>{{ request['item_name'] }}</td>
+                    <td>{{ request['quantity'] }}</td>
+                    <td>{{ request['vendor_name'] }}</td>
+                    <td>
+                        <span class="status status-{{ request['status'].lower() }}">
+                            {{ request['status'] }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('confirm_request', request_id=request['id']) }}" 
+                           class="action-btn btn-confirm">Confirm</a>
+                        <a href="{{ url_for('reject_request', request_id=request['id']) }}" 
+                           class="action-btn btn-reject">Reject</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="no-requests">No pending requests</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
