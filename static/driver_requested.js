@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const DRIVER_ID = 1;
     const container = document.getElementById('orders-container');
 
     async function fetchAvailableOrders() {
@@ -7,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const orders = await response.json();
 
         if (!container) { return; }
-
         if (orders.length === 0) {
             container.innerHTML = '<p>No available orders at the moment.</p>';
             return;
@@ -20,11 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
             card.id = `order-${order.id}`;
 
             const quickTag = order.is_quick ? '<span class="tag tag-quick">QUICK</span>' : '';
-            const typeTag = order.delivery_type === 'door' 
+            const typeTag = order.delivery_type === 'Door Delivery' 
                 ? '<span class="tag tag-door">DOOR DELIVERY</span>' 
                 : '<span class="tag tag-common">COMMON HUB</span>';
             
-            // NOTE: All price/fee display has been removed.
             card.innerHTML = `
                 <h3>Order for: ${order.vendor_name}</h3>
                 <div class="details">
@@ -50,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
-        const response = await fetch(`/api/driver/orders/accept/${orderId}/${DRIVER_ID}`, {
+        const response = await fetch(`/api/driver/orders/accept/${orderId}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ delivery_time: deliveryTime })
