@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Dashboard - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome Supplier</h1>
+    
+    <nav>
+      <a href="{{ url_for('supplier_dashboard') }}">Home</a>
+      <a href="{{ url_for('supplier_inventory') }}">Inventory</a>
+      <a href="{{ url_for('supplier_requests') }}">Incoming Requests</a>
+      <a href="{{ url_for('supplier_confirmed') }}">Confirmed Orders</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+    
+    <div id="home-content">
+      <p>Welcome to your supplier dashboard. Use the navigation above to manage your inventory and requests.</p>
+    </div>
+    
+    <div class="stats-container">
+      <div class="stat-card">
+        <h3>Total Inventory Items</h3>
+        <div class="value">{{ inventory_count }}</div>
+      </div>
+      <div class="stat-card">
+        <h3>Pending Requests</h3>
+        <div class="value">{{ pending_requests }}</div>
+      </div>
+      <div class="stat-card">
+        <h3>Confirmed Orders</h3>
+        <div class="value">{{ confirmed_orders }}</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</body>
+</html>

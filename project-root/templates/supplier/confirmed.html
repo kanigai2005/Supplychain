@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmed Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/confirmed.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmed Orders</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Vendor</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in confirmed %}
+                <tr>
+                    <td>{{ order['item_name'] }}</td>
+                    <td>{{ order['quantity'] }}</td>
+                    <td>{{ order['vendor_name'] }}</td>
+                    <td>
+                        <span class="status status-confirmed">{{ order['status'] }}</span>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('complete_order', order_id=order['id']) }}" 
+                           class="action-btn btn-complete">
+                           Complete Order
+                        </a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="no-orders">No confirmed orders</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
