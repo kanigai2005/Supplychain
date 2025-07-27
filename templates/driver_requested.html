@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requested Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='driver_style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Available Runs</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/accepted">My Accepted Runs</a>
+        </nav>
+    </header>
+    <main id="orders-container">
+        <!-- Orders will be loaded here -->
+    </main>
+    <script src="{{ url_for('static', filename='driver_requested.js') }}"></script>
+</body>
+</html>

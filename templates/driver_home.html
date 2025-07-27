@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='driver_style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Driver Dashboard</h1>
+    </header>
+    <main>
+        <div class="home-container">
+            <h2>Welcome, Driver!</h2>
+            <p>Choose an action to get started.</p>
+            <a href="/requested">View Requested Orders</a>
+            <a href="/accepted">View My Accepted Runs</a>
+        </div>
+    </main>
+</body>
+</html>

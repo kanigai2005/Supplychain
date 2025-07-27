@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Accepted Orders</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='driver_style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>My Accepted Runs</h1>
+        <nav><a href="/">Home</a><a href="/requested">View Requested Orders</a></nav>
+    </header>
+    <main id="groups-container">
+        <!-- Order groups will be loaded here by JavaScript -->
+    </main>
+    <script src="{{ url_for('static', filename='driver_accepted.js') }}"></script>
+</body>
+</html>
