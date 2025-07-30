@@ -1,6 +1,9 @@
 import sqlite3
+import os
 
-DATABASE_NAME = 'supplychain.db'
+# Correctly locate the database file in the same directory as the script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE_NAME = os.path.join(SCRIPT_DIR, 'supplychain.db')
 
 def setup_database():
     conn = sqlite3.connect(DATABASE_NAME)

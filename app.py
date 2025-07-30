@@ -6,7 +6,10 @@ import os
 # Corrected the __name__ variable
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-DATABASE = 'supplychain.db'
+
+# Correctly locate the database file in the same directory as the app
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(SCRIPT_DIR, 'supplychain.db')
 
 # ----------------- Database Connection -----------------
 def get_db():
@@ -218,14 +221,12 @@ def get_vendor_requests():
     requests = db.execute("SELECT id, item_name, quantity, status FROM material_requests WHERE vendor_id = ? ORDER BY id DESC", (vendor_id,)).fetchall()
     return jsonify([dict(row) for row in requests])
 
-# MODIFIED: This function now creates a driver order for every item requested.
 @app.route('/api/vendor/requests', methods=['POST'])
 @login_required
 @vendor_required
 def create_vendor_request():
     data = request.get_json()
     vendor_id = session['user_id']
-    vendor_name = session['username']
     delivery_type = data.get('delivery_type')
     delivery_address = data.get('delivery_address')
 
@@ -238,23 +239,14 @@ def create_vendor_request():
             item_name, quantity_str = item.split(' - ')
             quantity = int(quantity_str.strip().replace('kg', ''))
             
-            # Action 1: Create the material request for the supplier (existing functionality)
+            # Create the material request for the supplier
             db.execute(
                 """INSERT INTO material_requests 
                    (item_name, quantity, vendor_id, status, delivery_type, delivery_address) 
-                   VALUES (?, ?, ?, 'pending', ?, ?)""",
+                   VALUES (?, ?, ?, 'pending', ?, ?)
+                """,
                 (item_name.strip(), quantity, vendor_id, delivery_type, delivery_address)
             )
-
-            # Action 2: Create a corresponding order for the driver (new functionality)
-            is_quick = 1 if "urgent" in item_name.lower() else 0
-            db.execute(
-                """INSERT INTO driver_orders 
-                   (vendor_name, pickup_address, delivery_address, delivery_type, is_quick, status)
-                   VALUES (?, ?, ?, ?, ?, 'available')""",
-                (vendor_name, "Main Wholesale Market", delivery_address, delivery_type, is_quick)
-            )
-
         except (ValueError, IndexError):
             continue
     db.commit()
